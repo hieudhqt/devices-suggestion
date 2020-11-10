@@ -9,7 +9,10 @@
         </element>
         <element id="directory" name="lib">
           <element id="library" level="project" name="mssql-jdbc-7.0.0.jre8" />
+          <element id="library" level="project" name="JPA 2.0-2.0" />
+          <element id="library" level="project" name="eclipselink-2.7.4" />
           <element id="library" level="project" name="jstl-1.2" />
+          <element id="library" level="project" name="Apache FOP 2:5" />
         </element>
       </element>
     </root>

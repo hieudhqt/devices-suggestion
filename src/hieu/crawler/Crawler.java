@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 
 public class Crawler {
 
-    private String realPath;
+    private final String realPath;
     private String xslPath;
     private String url;
 

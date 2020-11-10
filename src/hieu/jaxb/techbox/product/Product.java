@@ -1,4 +1,3 @@
-
 package hieu.jaxb.techbox.product;
 
 import javax.xml.bind.annotation.*;
@@ -6,9 +5,9 @@ import javax.xml.bind.annotation.*;
 
 /**
  * <p>Java class for product complex type.
- * 
+ *
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ *
  * <pre>
  * &lt;complexType name="product">
  *   &lt;complexContent>
@@ -22,14 +21,12 @@ import javax.xml.bind.annotation.*;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "product", propOrder = {
-    "name",
-    "price",
-    "warranty"
+        "name",
+        "price",
+        "warranty"
 })
 @XmlRootElement(name = "product")
 public class Product {
@@ -43,11 +40,9 @@ public class Product {
 
     /**
      * Gets the value of the name property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getName() {
         return name;
@@ -55,11 +50,9 @@ public class Product {
 
     /**
      * Sets the value of the name property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setName(String value) {
         this.name = value;
@@ -67,11 +60,9 @@ public class Product {
 
     /**
      * Gets the value of the price property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getPrice() {
         return price;
@@ -79,11 +70,9 @@ public class Product {
 
     /**
      * Sets the value of the price property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setPrice(String value) {
         this.price = value;
@@ -91,11 +80,9 @@ public class Product {
 
     /**
      * Gets the value of the warranty property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getWarranty() {
         return warranty;
@@ -103,11 +90,9 @@ public class Product {
 
     /**
      * Sets the value of the warranty property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setWarranty(String value) {
         this.warranty = value;

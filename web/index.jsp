@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: hieud
@@ -12,10 +13,21 @@
   </head>
   <body>
   <h1>Devices Suggestion</h1>
-  <form action="" method="post">
-    Username: <input type="text" name="txtUsername"/> <br/>
-    Password: <input type="password" name="txtPassword"/> <br/>
-    <input type="submit" value="Login">
+  <c:set value="${sessionScope.ROLE}" var="role"/>
+  <c:if test="${role != null}">
+    <c:if test="${role == 'user'}">
+      <c:redirect url="init"/>
+    </c:if>
+    <c:if test="${role == 'admin'}">
+      <c:redirect url="admin.jsp"/>
+    </c:if>
+  </c:if>
+  <form action="login" method="post">
+    Tài khoản: <input type="text" name="txtUsername" placeholder="Nhập tên tài khoản" required oninvalid="this.setCustomValidity('Yêu cầu nhập tên tài khoản')" oninput="setCustomValidity('')"/> <br/>
+    Mật khẩu: <input type="password" name="txtPassword" placeholder="Nhập mật khẩu" required oninvalid="this.setCustomValidity('Yêu cầu nhập mật khẩu')" oninput="setCustomValidity('')"/> <br/>
+    <input type="submit" value="Đăng nhập"/>
   </form>
+  <h2 style="color: red">${requestScope.UNAUTHENTICATED}</h2>
+  <h2 style="color: red">${requestScope.UNAUTHORIZED}</h2>
   </body>
 </html>

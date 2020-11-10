@@ -20,8 +20,8 @@ public class HTMLPortion {
 
     //Boba
     public static final String FROM_PART_BOBA_CATEGORY = "<ul class=\"nav navbar-nav nav-main\">";
-    public static final String TO_PART_BOBA_CATEGORY = "<ul class=\"hnav\"><li><a href=\"/san-pham-hot\" rel=\"nofollow\">";
+    public static final String TO_PART_BOBA_CATEGORY = "<ul class=\"hnav\">";
 
-    public static final String FROM_PART_BOBA_PRODUCT_LIST = "<div class=\"container wrapper-content\">";;
-    public static final String TO_PART_BOBA_PRODUCT_LIST = "<footer><div class=\"container\">";
+    public static final String FROM_PART_BOBA_PRODUCT_LIST = "<div class=\"container wrapper-content\">";
+    public static final String TO_PART_BOBA_PRODUCT_LIST = "<footer>";
 }

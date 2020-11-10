@@ -12,6 +12,18 @@
         </webroots>
       </configuration>
     </facet>
+    <facet type="jpa" name="JPA">
+      <configuration>
+        <setting name="validation-enabled" value="true" />
+        <setting name="provider-name" value="EclipseLink" />
+        <datasource-mapping>
+          <factory-entry name="NewPersistenceUnit" value="0fddfeba-b79f-4d68-9e03-1bfa32e80bcb" />
+          <factory-entry name="SuggestionPU" value="0fddfeba-b79f-4d68-9e03-1bfa32e80bcb" />
+        </datasource-mapping>
+        <naming-strategy-map />
+        <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/src/META-INF/persistence.xml" />
+      </configuration>
+    </facet>
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
@@ -20,8 +32,11 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" scope="PROVIDED" name="Tomcat 9.0.35" level="application_server_libraries" />
+    <orderEntry type="library" scope="PROVIDED" name="Tomcat 9.0.38" level="application_server_libraries" />
     <orderEntry type="library" name="mssql-jdbc-7.0.0.jre8" level="project" />
+    <orderEntry type="library" name="JPA 2.0-2.0" level="project" />
+    <orderEntry type="library" name="eclipselink-2.7.4" level="project" />
     <orderEntry type="library" name="jstl-1.2" level="project" />
+    <orderEntry type="library" name="Apache FOP 2:5" level="project" />
   </component>
 </module>

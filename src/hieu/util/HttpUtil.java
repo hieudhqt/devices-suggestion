@@ -1,11 +1,11 @@
 package hieu.util;
 
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
+import javax.net.ssl.*;
 import javax.xml.transform.stream.StreamSource;
 import java.io.*;
+import java.net.CookieHandler;
+import java.net.CookieManager;
+import java.net.CookiePolicy;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.security.KeyManagementException;
@@ -20,10 +20,12 @@ public class HttpUtil {
 
     private static InputStream getHttp(String url) {
         try {
+            CookieHandler.setDefault(new CookieManager(null, CookiePolicy.ACCEPT_ALL));
             SSLContext sslContext = SSLContext.getInstance("TLS");
             TrustManager[] trustManagers = getTrustManager();
             sslContext.init(null, trustManagers, new SecureRandom());
             HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
+            System.setProperty("https.protocols", "TLSv1,TLSv1.1,TLSv1.2");
             URL input = new URL(url);
             HttpsURLConnection connection = (HttpsURLConnection) input.openConnection();
             return connection.getInputStream();
@@ -31,6 +33,8 @@ public class HttpUtil {
             Logger.getLogger(HttpUtil.class.getName()).log(Level.SEVERE, "InputStream HttpUtil: " + e.getMessage(), e);
         } catch (KeyManagementException e) {
             Logger.getLogger(HttpUtil.class.getName()).log(Level.SEVERE, "InputStream HttpUtil: " + e.getMessage(), e);
+        } catch (SSLHandshakeException e) {
+            System.out.println("SSL error at: " + url);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -38,7 +42,7 @@ public class HttpUtil {
     }
 
     private static TrustManager[] getTrustManager() {
-        TrustManager[] certs = new TrustManager[] {new X509TrustManager() {
+        TrustManager[] certs = new TrustManager[]{new X509TrustManager() {
             @Override
             public void checkClientTrusted(X509Certificate[] x509Certificates, String s) throws CertificateException {
 
@@ -60,49 +64,45 @@ public class HttpUtil {
     private static String convertHttpResultToString(String url) throws IOException {
         StringBuffer sb = new StringBuffer();
         InputStream result = getHttp(url);
-        BufferedReader br = new BufferedReader(new InputStreamReader(result, StandardCharsets.UTF_8));
-        String line;
-        while ((line = br.readLine()) != null) {
-            if (line.contains("src") || line.contains("href")) {
-                line = line.replace("&", "&amp;");
+        if (result != null) {
+            BufferedReader br = new BufferedReader(new InputStreamReader(result, StandardCharsets.UTF_8));
+            String line;
+            while ((line = br.readLine()) != null) {
+                if (line.contains("src") || line.contains("href")) {
+                    line = line.replace("&", "&amp;");
+                }
+                sb.append(line);
             }
-            line = line.replace("&reg;", "&#174;")
-                    .replace("&hellip;", "")
-                    .replace("&nbsp;", "");
-//                    .replace("&#38;nbsp;", "");
-            line = VietnameseEncoder.encode(line);
-            sb.append(line);
+            br.close();
+            return sb.toString();
         }
-        br.close();
-        return sb.toString();
+        return null;
     }
 
     public static StreamSource preProcessInputStream(String url, String fromPart, String toPart) throws IOException {
         String result = convertHttpResultToString(url);
-        StringBuffer sb = new StringBuffer();
-        try {
-            result = result.substring(result.indexOf(fromPart), result.indexOf(toPart));
-        } catch (StringIndexOutOfBoundsException ex) {
-            Logger.getLogger(HttpUtil.class.getName()).log(Level.SEVERE, "Substring error at: " + url, ex);
+        if (result != null) {
+            StringBuffer sb = new StringBuffer();
+            try {
+                result = result.substring(result.indexOf(fromPart), result.indexOf(toPart));
+            } catch (StringIndexOutOfBoundsException ex) {
+//            Logger.getLogger(HttpUtil.class.getName()).log(Level.SEVERE, "Substring error at: " + url, ex);
+                System.out.println("Substring error at: " + url + ", from: " + fromPart + ", to: " + toPart);
+            }
+
+            result = VietnameseEncoder.encode(result);
+            result = VietnameseEncoder.decode(result);
+            result = StringHelper.refineHTML(result);
+
+            sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+            sb.append("<html xmlns=\"http://www.w3.org/1999/xhtml\">");
+            sb.append(result);
+            sb.append("</html>");
+
+            InputStream is = new ByteArrayInputStream(sb.toString().getBytes(StandardCharsets.UTF_8));
+            return new StreamSource(is);
         }
-
-//        result = VietnameseEncoder.decode(result);
-        result = VietnameseEncoder.encode(result);
-
-        result = StringHelper.refineHTML(result);
-        sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-        sb.append("<html xmlns=\"http://www.w3.org/1999/xhtml\">");
-        sb.append(result);
-        sb.append("</html>");
-
-        if (url.equals("https://techbox.vn/camera-ip-ngoai-troi-vitacam-vb720ii.html")) {
-            BufferedWriter bw = new BufferedWriter(new FileWriter("E:\\Google Drive\\Documents\\Summer 2020\\PRX301\\Code\\final-project\\web\\WEB-INF\\techbox\\crawl.xml"));
-            bw.write(sb.toString());
-            bw.close();
-        }
-
-        InputStream is = new ByteArrayInputStream(sb.toString().getBytes(StandardCharsets.UTF_8));
-        return new StreamSource(is);
+        return null;
     }
 
 }

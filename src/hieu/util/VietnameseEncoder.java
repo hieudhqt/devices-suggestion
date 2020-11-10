@@ -6,9 +6,12 @@ public class VietnameseEncoder {
         String s = content;
         s = s.replaceAll("&ndash;", "-");
         s = s.replaceAll("&rarr;", "→");
+        s = s.replaceAll("&nbsp;", " ");
         s = s.replaceAll("&", "&amp;");
         s = s.replaceAll("itemscope", "");
         s = s.replaceAll("disabled", "");
+        s = s.replaceAll("&amp;", "&");
+        s = s.replaceAll("&#38;nbsp;", " ");
         return s;
     }
 
@@ -196,6 +199,25 @@ public class VietnameseEncoder {
         s = s.replaceAll("&ndash;", "–");
         s = s.replaceAll("&mdash;", "—");
         s = s.replaceAll("&#8470;", "№");
+        s = s.replaceAll("&times;", "×");
+        s = s.replaceAll("&ldquo;", "“");
+        s = s.replaceAll("&Prime;", "″");
+        s = s.replaceAll("&prime;", "′");
+        s = s.replaceAll("&rsquo;", "’");
+        s = s.replaceAll("&rdquo;", "”");
+        s = s.replaceAll("&plusmn;", "±");
+        s = s.replaceAll("&rArr;", "⇒");
+        s = s.replaceAll("&radic;", "√");
+        s = s.replaceAll("&le;", "≤");
+        s = s.replaceAll("&ndash;", "-");
+        s = s.replaceAll("&rarr;", "→");
+        s = s.replaceAll("&nbsp;", " ");
+        s = s.replaceAll("&reg;", "&#174;");
+        s = s.replaceAll("&hellip;", "…");
+        s = s.replaceAll("&gt;", ">");
+        s = s.replaceAll("&lt;", "<");
+        s = s.replaceAll("&#39;", "'");
+//        s = s.replaceAll("&quot;", "\"");
         s = s.replaceAll("&", "&amp;");
         return s;
     }

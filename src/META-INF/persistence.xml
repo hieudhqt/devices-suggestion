@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
+
+    <persistence-unit name="SuggestionPU">
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        <class>hieu.entity.AccountEntity</class>
+        <class>hieu.entity.CategoryEntity</class>
+        <class>hieu.entity.FavouriteEntity</class>
+        <class>hieu.entity.ProductEntity</class>
+        <class>hieu.entity.RoomEntity</class>
+        <class>hieu.entity.UsageEntity</class>
+        <exclude-unlisted-classes>false</exclude-unlisted-classes>
+        <properties>
+            <property name="javax.persistence.jdbc.url"
+                      value="jdbc:sqlserver://localhost:1212;databaseName=DevicesSuggestion"/>
+            <property name="javax.persistence.jdbc.user" value="sa"/>
+            <property name="javax.persistence.jdbc.password" value="Hieu121299"/>
+            <property name="javax.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
+            <property name="esclipselink.cache.shared.default" value="false"/>
+            <property name="eclipselink.weaving.internal" value="false"/>
+            <property name="eclipselink.weaving" value="static"/>
+            <property name="eclipselink.connection-pool.default.initial" value="1"/>
+            <property name="eclipselink.connection-pool.default.min" value="64"/>
+            <property name="eclipselink.connection-pool.default.max" value="64"/>
+        </properties>
+    </persistence-unit>
+</persistence>

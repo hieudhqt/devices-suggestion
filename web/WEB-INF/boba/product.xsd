@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="https://boba.vn/product"
+            xmlns="https://boba.vn/product"
+            elementFormDefault="qualified">
+    <xsd:element name="product" type="product"/>
+    <xsd:complexType name="product">
+        <xsd:sequence>
+            <xsd:element name="name" type="xsd:string"/>
+            <xsd:element name="price" type="xsd:string"/>
+            <xsd:element name="warranty" type="xsd:string"/>
+            <xsd:element name="description" type="xsd:string"/>
+            <xsd:element name="imageUrl" type="xsd:anyURI"/>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

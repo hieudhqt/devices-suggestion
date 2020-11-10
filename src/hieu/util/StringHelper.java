@@ -6,7 +6,8 @@ import java.util.List;
 
 public class StringHelper {
 
-    private static final String[] IGNORE_TAGS = new String[] {"head", "noscript", "style", "iframe", "script", "meta", "select"};
+    private static final String[] IGNORE_TAGS = new String[]{"head", "noscript", "style", "iframe", "script", "meta", "select"};
+    private static final String[] CONTENT_ONLY_TAGS = new String[]{"strong"};
 
     public static String refineHTML(String content) {
         content = removeUnnecessaryTags(content);
@@ -15,33 +16,37 @@ public class StringHelper {
         return content;
     }
 
+    public static String replaceUnparsedEntity(String content) {
+        content = content.replaceAll("&quot;", "\"");
+        return content;
+    }
+
     private static String removeUnnecessaryTags(String content) {
         String expression = "<!--.*?-->";
         content = content.replaceAll(expression, "");
 
         expression = "&nbsp;";
-        content = content.replaceAll(expression, "");
-        
-        expression = "<br>";
-        content = content.replaceAll(expression, "");
-        
-        expression = "<br/>";
-        content = content.replaceAll(expression, "");
-        
-        expression = "</br>";
-        content = content.replaceAll(expression, "");
-        
+        content = content.replaceAll(expression, " ");
+
+        expression = "(?i)</? *br */?>";
+        content = content.replaceAll(expression, "\n");
+
+        for (String exp : CONTENT_ONLY_TAGS) {
+            expression = String.format("</?%s[^>]*>", exp);
+            content = content.replaceAll(expression, " ");
+        }
+
         for (String exp : IGNORE_TAGS) {
             expression = String.format("<%s.*?</%s>", exp, exp);
             content = content.replaceAll(expression, "");
         }
         return content;
     }
-    
+
     private static boolean isAlphaChar(char x) {
         return (x >= 'a' && x <= 'z') || (x >= '0' && x <= '9') || (x >= 'A' && x <= 'Z');
     }
-    
+
     private static String getTagName(String content) {
         if (content.charAt(content.length() - 2) == '/') {
             return null;
@@ -49,7 +54,7 @@ public class StringHelper {
         String res = "";
         int i = 1;
         if (content.charAt(1) == '/') {
-            res = res + "/";
+            res = res + '/';
             i++;
         }
         while (isAlphaChar(content.charAt(i))) {
@@ -72,7 +77,7 @@ public class StringHelper {
         Arrays.fill(mark, -1);
 
         int i = 0;
-        while (i <content.length()) {
+        while (i < content.length()) {
             if (content.charAt(i) == '<') {
                 int j = i + 1;
 
@@ -97,6 +102,7 @@ public class StringHelper {
                         while (stack.size() > 0) {
                             if (stack.get(stack.size() - 1).equals(tag.substring(1))) {
                                 stack.remove(stack.size() - 1);
+                                li.remove(li.size() - 1);
                                 break;
                             } else {
                                 addTag.add(stack.get(stack.size() - 1));
@@ -127,7 +133,7 @@ public class StringHelper {
 
         return newContent;
     }
-    
+
     public static String URLify(String url) {
         StringBuilder sb = new StringBuilder();
         for (char currentChar : url.toCharArray()) {
@@ -138,6 +144,22 @@ public class StringHelper {
             }
         }
         return sb.toString();
+    }
+
+    public static String normalizeString(String input) {
+        String output = input.trim().replaceAll("  ", " ");
+        String[] word = output.split(" ");
+        StringBuffer sb = new StringBuffer();
+
+        for (String string : word) {
+            if (!string.equals(" ")) {
+                sb.append(Character.toUpperCase(string.charAt(0)));
+                sb.append(string.toLowerCase().substring(1));
+            }
+            sb.append(" ");
+        }
+        output = sb.toString().trim();
+        return output;
     }
 
 }
